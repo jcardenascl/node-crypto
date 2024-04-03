@@ -1,0 +1,16 @@
+version: '3.8'
+
+services: 
+  app: 
+    container_name: node-crypto
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+
+  mongo:
+    container_name: mongodatabase
+    image: mongo
+    ports:
+      - "27017:27017"

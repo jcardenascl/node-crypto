@@ -15,13 +15,16 @@ export default class Server {
     }
 
     private connectDB() {
-        mongoose.connect('mongodb://mongo/mydatabase')
-        .then(db => console.log('DB is conected to', db.connection.host))
-        .catch(err => console.error('DB is not conected ', err));
+       return mongoose.connect('mongodb://mongo/mydatabase');
     }
 
     start(callback: () => void) {
-        this.connectDB();
-        this.app.listen(this.port, callback);
+        this.connectDB().then(async db => {
+            console.log('DB is conected to', db.connection.host);
+            await mongoose.connection.dropDatabase();
+            this.app.listen(this.port, callback);
+        })
+        .catch(err => console.error('DB is not conected ', err));
+        
     }
 }

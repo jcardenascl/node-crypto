@@ -1,10 +1,12 @@
-export interface RootTransaction {
+import { Document, Types } from "mongoose";
+
+export interface ListSinceBlock extends Document {
   transactions: Transaction[];
   removed: any[];
   lastblock: string;
 }
 
-export interface Transaction {
+export interface Transaction extends Document {
   involvesWatchonly: boolean;
   account: string;
   address: string;
@@ -21,4 +23,12 @@ export interface Transaction {
   time: number;
   timereceived: number;
   'bip125-replaceable': string;
+  listsinceblock: Types.ObjectId;
+}
+
+export interface CustomerInterface extends Document {
+  name: string;
+  address: string;
+  transactionsref: Types.ObjectId[] | Transaction[];
+  transactionsCount?: number;
 }
